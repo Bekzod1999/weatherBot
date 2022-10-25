@@ -92,12 +92,17 @@
 
 
 
+import re
 import requests
 TOKEN = '5603688976:AAEKZQ1m7SyzJMouAMVYfrmYB3LSrvnIPK4'
 
 def get_request(TOKEN):
-    bot_json = requests.get(f'https://api.telegram.org/bot{TOKEN}/getUpdates').json()
-    return bot_json 
+    r = requests.get(f'https://api.telegram.org/bot{TOKEN}/getUpdates')
+    if r.status_code == 200:
+        bot_json = r.json()
+        return bot_json
+    else:
+        return 'Enter the correct city name' 
 
 def get_request_city(city_name):
     city_json = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid=ba5f0db5da7eed99dc585cd6a768b237').json()
